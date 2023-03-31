@@ -1,10 +1,10 @@
 import './App.css';
-import AudioPlay from './AudioPlay';
+import AudioVisualiser from './AudioVisualiser';
 
 function App() {
   return (
     <div className='App'>
-      <AudioPlay />
+      <AudioVisualiser />
     </div>
   );
 }
