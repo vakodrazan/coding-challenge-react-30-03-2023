@@ -1,16 +1,17 @@
+import React from 'react';
 import { useRef, useState } from 'react';
 
-let animationController;
-
 export default function AudioVisualiser() {
-  const [file, setFile] = useState(null);
-  const canvasRef = useRef();
-  const audioRef = useRef();
-  const source = useRef();
-  const analyzer = useRef();
+  const [file, setFile] = useState<File>();
+  const canvasRef = useRef<HTMLCanvasElement | any>();
+  const audioRef = useRef<HTMLAudioElement | any>();
+  const source = useRef<HTMLElement | any>();
+  const analyzer = useRef<HTMLElement | any>();
+
+  console.log('canvasRef::::::', canvasRef);
 
   const visualizeData = () => {
-    animationController = window.requestAnimationFrame(visualizeData);
+    const animationController = window.requestAnimationFrame(visualizeData);
     if (audioRef.current.paused) {
       return cancelAnimationFrame(animationController);
     }
@@ -48,29 +49,28 @@ export default function AudioVisualiser() {
     visualizeData();
   };
 
-  const splittedFileName = file?.name.split('.');
-
-  const fileName = file?.name.replace(
-    `.${splittedFileName[splittedFileName.length - 1]}`,
-    ''
-  );
-
   return (
     <div className='audio-visualiser'>
       <div className='upload-container'>
         <label htmlFor='audioUploader' className='file-upload'>
           Upload audio
         </label>
-        <span className='file-title'>{fileName || 'No file chosen'}</span>
+        <span className='file-title'>{file?.name || 'No file chosen'}</span>
         <input
           type='file'
           name='audioUploader'
           id='audioUploader'
           accept='audio/*'
           className='upload'
-          onChange={({ target: { files } }) => files[0] && setFile(files[0])}
+          onChange={({ target: { files } }) =>
+            files?.length && setFile(files[0])
+          }
         />
       </div>
+      {/* 
+        Adding this condition so that it won't show the audio preview and canvas while there is nothing to play 
+        It will return true if the file variable is not empty but false when it is empty 
+      */}
       {file && (
         <div className='audio-container'>
           <canvas className='canvas' ref={canvasRef} width={500} height={300} />
