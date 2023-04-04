@@ -71,7 +71,7 @@ export default function AudioVisualiser() {
         Adding this condition so that it won't show the audio preview and canvas while there is nothing to play 
         It will return true if the file variable is not empty but false when it is empty 
       */}
-      {file && (
+      {file ? (
         <div className='audio-container'>
           <canvas className='canvas' ref={canvasRef} width={500} height={300} />
           <audio
@@ -82,7 +82,7 @@ export default function AudioVisualiser() {
             className='audio-controller'
           />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
